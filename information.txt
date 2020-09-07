@@ -1,0 +1,19 @@
+Some conclusions:
+1)NLP has lots of techniques: Vectorizer, TD-IDF, Latent Semantics Analytics
+2)The first step is to Vectorize each document, if we have several docs, then it turns into a matrix
+2.1) Hence we talk about to transform CORPUS (Collection of documents) into a Space Vector Model (matrix)
+2.2) This matrix is oftenly, in ML, a matrix of rows (documents) and columns (terms)
+2.3) The rows can be each document, sentence or even the word it self, which will turn into a word vs word matrix.
+3)The base is a matrix which can turn into different measures: TD-IDF for example
+4)TD-IDF seems to be the base for LSA
+
+Principal topics for this project:
+-NLP, LSA, PCA, TD-IDF, Space Vector Model, EDA (Exploratory Data Analysis)
+-NLP techniques (there are more...) :Sentiment analysis, Topic modeling and Text Generation
+
+Modelo principal
+
+text_content
+heading
+subject
+type_of_thesis
