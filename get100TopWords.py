@@ -12,6 +12,7 @@ from cassandra.auth import PlainTextAuthProvider
 from cassandra.query import SimpleStatement
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
+import MLfunctions as mlf
 
 pathtohere=os.getcwd()
 nltk.download('stopwords')
@@ -31,8 +32,7 @@ def main():
     session = cluster.connect()
     querySt="select heading,text_content,subject,type_of_thesis from thesis.tbthesis where period_number=10 ALLOW FILTERING"       
     row=''
-    ltDoc=StringIO()
-    #ltDocuments=[]
+    ltDocuments=[]
     #Read and deliver a list of documents
     statement = SimpleStatement(querySt, fetch_size=1000)
     print('Getting data from datastax...')
@@ -46,22 +46,14 @@ def main():
                 thesis_b.write(str(col)+' ')
         thesis=''
         thesis=thesis_b.getvalue()
-        #ltDocuments.append(thesis)
-        ltDoc.write(thesis+' ')
+        ltDocuments.append(thesis)
+        
+    strDocuments=mlf.convertListToString(ltDocuments)    
 
     #Get the most common words (no TF IDF yet)
     sw=stopwords.words('spanish')
-    words = word_tokenize(ltDoc.getvalue(),language='spanish')
-    print('Cleaning corpus...')
-    words_no_pun=[]
-    for w in words:
-        if w.isalpha():
-            words_no_pun.append(w.lower())
-    #Remove stopwords
-    clean_words=[]
-    for w in words_no_pun:
-        if w not in sw:
-            clean_words.append(w)
+    words = word_tokenize(strDocuments,language='spanish')
+    clean_words=mlf.clean_corpus(words,sw)
 
     fdist=FreqDist(clean_words)
     file = open(pathtohere+"\\100_TOP_WORDS_NO_TFIDF.txt","a+")
