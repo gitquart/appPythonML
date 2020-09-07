@@ -7,9 +7,7 @@ from nltk import sent_tokenize,word_tokenize
 from nltk.corpus import stopwords
 from nltk.probability import FreqDist
 from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
-from cassandra.cluster import Cluster
-from cassandra.auth import PlainTextAuthProvider
-from cassandra.query import SimpleStatement
+
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import MLfunctions as mlf
