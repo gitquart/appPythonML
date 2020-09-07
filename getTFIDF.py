@@ -51,10 +51,10 @@ def main():
     tfidf=TfidfVectorizer(encoding='utf-8',stop_words=sw)
     tfidf_matrix=tfidf.fit(ltDocuments)
     feature_names = tfidf_matrix.get_feature_names()
-    df = pd.DataFrame(tfidf_matrix.idf_,index=tfidf_matrix.get_feature_names(),columns=["tfidf"])
-    df.sort_values(by=["tfidf"],ascending=False)
+    df = pd.DataFrame(tfidf_matrix.,index=tfidf_matrix.get_feature_names(),columns=["tfidf"])
+    df.sort_values(by=["tfidf"],ascending=True)
     file = open(pathtohere+"\\100_TOP_WORDS_TFIDF.txt","a+")
-    file.write(str(df) 
+    file.write(df.to_string()) 
    
 
     
