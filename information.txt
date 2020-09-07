@@ -11,9 +11,11 @@ Principal topics for this project:
 -NLP, LSA, PCA, TD-IDF, Space Vector Model, EDA (Exploratory Data Analysis)
 -NLP techniques (there are more...) :Sentiment analysis, Topic modeling and Text Generation
 
-Modelo principal
-
-text_content
-heading
-subject
-type_of_thesis
+Start ML with 10th period
+   -Obtener Término frecuencia y TF IDF con los nuevos campos
+   -Obtener top 100, top 50
+   -Modelo principal
+      text_content
+      heading
+      subject
+      type_of_thesis
