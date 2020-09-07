@@ -63,14 +63,16 @@ def get_TFIDF():
         
     sw=stopwords.words('spanish')
     tfidf=TfidfVectorizer(encoding='utf-8',stop_words=sw)
-    tfidf_matrix=tfidf.fit(ltDocuments)
     """
     feature_names = tfidf_matrix.get_feature_names()
     df = pd.DataFrame(tfidf_matrix.idf_,index=tfidf_matrix.get_feature_names(),columns=["tfidf"])
     df.sort_values(by=["tfidf"],ascending=True)
 
     """
-    return tfidf_matrix
+    lsReturn=[]
+    lsReturn.append(tfidf)
+    lsReturn.append(ltDocuments)
+    return lsReturn
    
 
     
