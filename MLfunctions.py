@@ -1,6 +1,7 @@
 from io import StringIO
 
 def convertListToString(lst):
+    print('Converting Listo to String...')
     strDoc=StringIO()
     for doc in lst:
         strDoc.write(str(doc)+' ')

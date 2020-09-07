@@ -60,15 +60,6 @@ def main():
     for word,freq in fdist.most_common(100):
         file.write(word+' '+str(freq)+'\n') 
 
-    """
-    cv=CountVectorizer(stop_words=sw)
-    word_count_vector=''
-    word_count_vector=cv.fit_transform(ltDocuments)
-    """
-
-
-    
-            
 
     
 class CassandraConnection():
