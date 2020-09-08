@@ -5,14 +5,17 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import MLfunctions as mlf
 from sklearn.decomposition import NMF
+from sklearn.decomposition import LatentDirichletAllocation
 import random
+from sklearn.feature_extraction.text import TfidfVectorizer,CountVectorizer
 
 """
 Topic Modeling
 -Latent Dirichlet Allocation (LDA)
 -Non-Negative Matrix Factorization (NMF)
 
-It can be used with TD IDF or Normal Vector
+-It can be used with TD IDF or Normal Vector
+-Test 5 groups for each algorithm
 """
 
 pathtohere=os.getcwd()
@@ -20,17 +23,34 @@ pathtohere=os.getcwd()
 
 def main():
     print('1.LDA, 2.NMF')
-    lsRes=[]
-    lsRes=mlf.get_TFIDF()
-    tfidf=lsRes[0]
-    lsDocs=lsRes[1]
-    tfidf_matrix=tfidf.fit_transform(lsDocs)
-    nmf = NMF(n_components=2,init='random',random_state=0)
-    nmf.fit(tfidf_matrix)
-    for i,topic in enumerate(nmf.components_):
-        print(f'Top 100 words for topic #{i}:')
-        print([tfidf.get_feature_names()[i] for i in topic.argsort()[-100:]])
-        print('\n')  
+    op=input()
+    op=int(op)
+    if op==1:
+        lsRes=[]
+        lsRes=mlf.getCountVectorizer()
+        vector=lsRes[0]
+        lsDocs=lsRes[1]
+        term_freq_matrix=vector.fit_transform(lsDocs)
+        LDA = LatentDirichletAllocation(n_components=2, random_state=42)
+        LDA.fit(term_freq_matrix)
+        for i,topic in enumerate(LDA.components_):
+            print(f'Top 100 words for topic #{i}:')
+            print([vector.get_feature_names()[i] for i in topic.argsort()[-100:]])
+            print('\n')
+        
+
+    if op==2:     
+        lsRes=[]
+        lsRes=mlf.get_TFIDF()
+        tfidf=lsRes[0]
+        lsDocs=lsRes[1]
+        tfidf_matrix=tfidf.fit_transform(lsDocs)
+        nmf = NMF(n_components=2,init='random',random_state=0)
+        nmf.fit(tfidf_matrix)
+        for i,topic in enumerate(nmf.components_):
+            print(f'Top 100 words for topic #{i}:')
+            print([tfidf.get_feature_names()[i] for i in topic.argsort()[-100:]])
+            print('\n')  
 
 
 

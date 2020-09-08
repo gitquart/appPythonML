@@ -4,11 +4,12 @@ from cassandra.cluster import Cluster
 from cassandra.auth import PlainTextAuthProvider
 from cassandra.query import SimpleStatement
 from nltk.corpus import stopwords
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer,CountVectorizer
 import os
 nltk.download('stopwords')
 nltk.download('punkt')
 pathtohere=os.getcwd()
+sw=stopwords.words('spanish')
 
 def convertListToString(lst):
     print('Converting Listo to String...')
@@ -61,18 +62,51 @@ def get_TFIDF():
         thesis=thesis_b.getvalue()
         ltDocuments.append(thesis)
         
-    sw=stopwords.words('spanish')
+    
     tfidf=TfidfVectorizer(encoding='utf-8',stop_words=sw)
-    """
-    feature_names = tfidf_matrix.get_feature_names()
-    df = pd.DataFrame(tfidf_matrix.idf_,index=tfidf_matrix.get_feature_names(),columns=["tfidf"])
-    df.sort_values(by=["tfidf"],ascending=True)
-
-    """
+  
     lsReturn=[]
     lsReturn.append(tfidf)
     lsReturn.append(ltDocuments)
     return lsReturn
+
+def getCountVectorizer():
+    print('Getting Vector from source...(CountVctorizer)')
+    cloud_config= {
+
+    'secure_connect_bundle': pathtohere+'//secure-connect-dbquart.zip'
+         
+    }
+    
+    objCC=CassandraConnection()
+    auth_provider = PlainTextAuthProvider(objCC.cc_user,objCC.cc_pwd)
+    cluster = Cluster(cloud=cloud_config, auth_provider=auth_provider)
+    session = cluster.connect()
+    querySt="select heading,text_content,subject,type_of_thesis from thesis.tbthesis where period_number=10 ALLOW FILTERING"       
+    row=''
+    ltDocuments=[]
+    #Read and deliver a list of documents
+    statement = SimpleStatement(querySt, fetch_size=1000)
+    print('Getting data from datastax...')
+    for row in session.execute(statement):
+        thesis_b=StringIO()
+        for col in row:
+            if type(col) is list:
+                for e in col:
+                    thesis_b.write(str(e)+' ')
+            else:        
+                thesis_b.write(str(col)+' ')
+        thesis=''
+        thesis=thesis_b.getvalue()
+        ltDocuments.append(thesis)
+
+    count_vect = CountVectorizer(stop_words=sw)
+    lsReturn=[]
+    lsReturn.append(count_vect)
+    lsReturn.append(ltDocuments) 
+
+    return lsReturn
+
    
 
     
