@@ -31,7 +31,8 @@ def main():
         vector=lsRes[0]
         lsDocs=lsRes[1]
         term_freq_matrix=vector.fit_transform(lsDocs)
-        LDA = LatentDirichletAllocation(n_components=2, random_state=42)
+        print('LDA...')
+        LDA = LatentDirichletAllocation(n_components=5)
         LDA.fit(term_freq_matrix)
         for i,topic in enumerate(LDA.components_):
             print(f'Top 100 words for topic #{i}:')
@@ -45,7 +46,8 @@ def main():
         tfidf=lsRes[0]
         lsDocs=lsRes[1]
         tfidf_matrix=tfidf.fit_transform(lsDocs)
-        nmf = NMF(n_components=2,init='random',random_state=0)
+        print('NMF...')
+        nmf = NMF(n_components=5,init='random')
         nmf.fit(tfidf_matrix)
         for i,topic in enumerate(nmf.components_):
             print(f'Top 100 words for topic #{i}:')
