@@ -2,12 +2,15 @@ import os
 import nltk
 import pandas as pd
 #sent or word tokenize: Get the information into sentences or words
-import matplotlib.pyplot as plt
 import MLfunctions as mlf
 import random
 import umap
 from sklearn.feature_extraction.text import TfidfVectorizer,CountVectorizer
 from sklearn.decomposition import NMF,LatentDirichletAllocation,TruncatedSVD
+import pyLDAvis
+from pyLDAvis import sklearn as sklearn_lda
+import pickle 
+
 
 
 """
@@ -39,6 +42,9 @@ def main():
             print(f'Top 100 words for topic #{i}:')
             print([vector.get_feature_names()[i] for i in topic.argsort()[-100:]])
             print('\n')
+
+        LDAvis_prepared = sklearn_lda.prepare(LDA,vector,term_freq_matrix) 
+        pyLDAvis.save_html(LDAvis_prepared, 'test.html')   
         
 
     if op==2:     

@@ -16,6 +16,7 @@ for example, in thesis, if they are 20 K thesis it doesn't mean there should be 
 -Probabilistic inference: Latent Dirichlet Allocation, Hierarchical Dirichlet Processing
 -LSA vs LDA: same input, similar output, different math.
 -SVD: Singular Value Decomposition is applied to a term-frequency matrix
+-There are several existing algorithms you can use to perform the topic modeling. The most common of it are, Latent Semantic Analysis (LSA/LSI), Probabilistic Latent Semantic Analysis (pLSA), and Latent Dirichlet Allocation (LDA)
 
 Start ML with 10th period
    -Obtener Término frecuencia y TF IDF con los nuevos campos
@@ -25,3 +26,5 @@ Start ML with 10th period
       heading
       subject
       type_of_thesis
+Prueba 2:
+-Con 1,2,3 grams obtener las palabras significativas con 5 componentes con campos sin filtro , con varias técnicas, con gráfica      
