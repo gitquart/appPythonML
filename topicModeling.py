@@ -10,6 +10,7 @@ from sklearn.decomposition import NMF,LatentDirichletAllocation,TruncatedSVD
 import pyLDAvis
 from pyLDAvis import sklearn as sklearn_lda
 import pickle 
+from nltk.corpus import stopwords
 
 
 
@@ -27,6 +28,9 @@ pathtohere=os.getcwd()
 
 def main():
     print('1.LDA, 2.NMF,3.LSA')
+    sw=stopwords.words('spanish')
+    for word in sw:
+        print(word)
     op=input()
     op=int(op)
     if op==1:
@@ -43,8 +47,6 @@ def main():
             print([vector.get_feature_names()[i] for i in topic.argsort()[-100:]])
             print('\n')
 
-        LDAvis_prepared = sklearn_lda.prepare(LDA,vector,term_freq_matrix) 
-        pyLDAvis.save_html(LDAvis_prepared, 'test.html')   
         
 
     if op==2:     
