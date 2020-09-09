@@ -4,10 +4,10 @@ import pandas as pd
 #sent or word tokenize: Get the information into sentences or words
 import matplotlib.pyplot as plt
 import MLfunctions as mlf
-from sklearn.decomposition import NMF
-from sklearn.decomposition import LatentDirichletAllocation
 import random
 from sklearn.feature_extraction.text import TfidfVectorizer,CountVectorizer
+from sklearn.decomposition import NMF,LatentDirichletAllocation,TruncatedSVD
+
 
 """
 Topic Modeling
@@ -63,6 +63,17 @@ def main():
         tfidf_matrix=tfidf.fit_transform(lsDocs)
         print('TF IDF shape:',tfidf_matrix.shape)
         print('LSA...')
+        svd_model = TruncatedSVD(n_components=20, algorithm='randomized', n_iter=100, random_state=122)
+        svd_model.fit(tfidf_matrix)
+        print('No. of components (topics): ',str(len(svd_model.components_)))
+        terms = tfidf.get_feature_names()
+        for i, comp in enumerate(svd_model.components_):
+            terms_comp = zip(terms, comp)
+            sorted_terms = sorted(terms_comp, key= lambda x:x[1], reverse=True)[:10]
+            print("Topic "+str(i)+": ")
+            for t in sorted_terms:
+                print(t[0])
+                print(" ")
 
 
 
