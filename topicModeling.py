@@ -4,12 +4,8 @@ import pandas as pd
 #sent or word tokenize: Get the information into sentences or words
 import MLfunctions as mlf
 import random
-import umap
 from sklearn.feature_extraction.text import TfidfVectorizer,CountVectorizer
 from sklearn.decomposition import NMF,LatentDirichletAllocation,TruncatedSVD
-import pyLDAvis
-from pyLDAvis import sklearn as sklearn_lda
-import pickle 
 from nltk.corpus import stopwords
 
 
