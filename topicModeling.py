@@ -28,9 +28,6 @@ pathtohere=os.getcwd()
 
 def main():
     print('1.LDA, 2.NMF,3.LSA')
-    sw=stopwords.words('spanish')
-    for word in sw:
-        print(word)
     op=input()
     op=int(op)
     if op==1:
