@@ -5,6 +5,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import MLfunctions as mlf
 import random
+import umap
 from sklearn.feature_extraction.text import TfidfVectorizer,CountVectorizer
 from sklearn.decomposition import NMF,LatentDirichletAllocation,TruncatedSVD
 
@@ -74,6 +75,7 @@ def main():
             for t in sorted_terms:
                 print(t[0])
                 print(" ")
+        
 
 
 
