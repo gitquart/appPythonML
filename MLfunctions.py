@@ -63,7 +63,7 @@ def get_TFIDF():
         ltDocuments.append(thesis)
         
     
-    tfidf=TfidfVectorizer(encoding='utf-8',stop_words=sw)
+    tfidf=TfidfVectorizer(encoding='utf-8',stop_words=sw,smooth_idf=True)
   
     lsReturn=[]
     lsReturn.append(tfidf)

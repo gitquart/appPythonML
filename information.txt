@@ -10,6 +10,7 @@ Some conclusions:
 Principal topics for this project:
 -NLP, LSA, PCA, TD-IDF, Space Vector Model, EDA (Exploratory Data Analysis)
 -NLP techniques (there are more...) :Sentiment analysis, Topic modeling and Text Generation
+-Topic Modeling: Latent Dirichlet Allocation (LDA),-Non-Negative Matrix Factorization (NMF),LSA (Latent Semantic Analysis)
 
 Start ML with 10th period
    -Obtener Término frecuencia y TF IDF con los nuevos campos
