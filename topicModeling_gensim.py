@@ -21,10 +21,9 @@ def main():
     lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus,
                                            id2word=id2word,
                                            num_topics=5, 
-                                           random_state=100,
-                                           chunksize=100)
+                                           random_state=100)
 
-    pprint(lda_model.print_topics())
+    pprint(lda_model.print_topics(num_words=100))
     
 
 

@@ -1,0 +1,20 @@
+[(0,
+  '0.031*"amparo" + 0.023*"juicio" + 0.015*"ley" + 0.014*"tribunal" + '
+  '0.011*"artículo" + 0.010*"circuito" + 0.009*"acto" + 0.009*"sentencia" + '
+  '0.009*"colegiado" + 0.009*"recurso"'),
+ (1,
+  '0.015*"civil" + 0.012*"artículo" + 0.011*"código" + 0.008*"debe" + '
+  '0.007*"si" + 0.006*"ley" + 0.006*"plazo" + 0.005*"tesis" + 0.005*"materia" '
+  '+ 0.005*"puede"'),
+ (2,
+  '0.017*"derecho" + 0.016*"derechos" + 0.013*"constitucional" + '
+  '0.011*"constitución" + 0.009*"artículo" + 0.008*"política" + '
+  '0.007*"mexicanos" + 0.007*"unidos" + 0.006*"justicia" + 0.006*"principio"'),
+ (3,
+  '0.029*"penal" + 0.011*"prueba" + 0.011*"si" + 0.009*"delito" + '
+  '0.009*"proceso" + 0.009*"debe" + 0.008*"código" + 0.007*"pruebas" + '
+  '0.006*"hechos" + 0.006*"juez"'),
+ (4,
+  '0.018*"ley" + 0.012*"artículo" + 0.012*"trabajo" + 0.009*"fracción" + '
+  '0.009*"laboral" + 0.008*"federal" + 0.008*"trabajadores" + '
+  '0.007*"administrativa" + 0.007*"servicio" + 0.007*"social"')]
