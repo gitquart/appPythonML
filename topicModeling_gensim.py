@@ -23,12 +23,17 @@ def main():
                                 id2word=id2word,
                                 num_topics=5, 
                                 random_state=100)
+
+    #This line saves the LDA model
+    #lda_model.save('ldaModel_10period')                            
    
     #print('---Printing 100 words per category (LDA)---')
     #pprint(lda_model.print_topics(num_words=100))
     
+    print('Starting Dataframe for Dominant topics')
     #Dominant topic section
     sent_topics_df = pd.DataFrame()
+    
 
     # Get main topic in each document
     for i, row_list in enumerate(lda_model[corpus]):
@@ -42,14 +47,15 @@ def main():
                 sent_topics_df = sent_topics_df.append(pd.Series([int(topic_num), round(prop_topic,4), topic_keywords]), ignore_index=True)
             else:
                 break
-    sent_topics_df.columns = ['Dominant_Topic', 'Perc_Contribution', 'Topic_Keywords']
+
 
     # Add original text to the end of the output
+    print('Before:',len(sent_topics_df.columns))
     contents = pd.Series(lsDocuments_NoSW)
+    print('After:',len(sent_topics_df.columns))
     sent_topics_df = pd.concat([sent_topics_df, contents], axis=1)
-    sent_topics_df.reset_index()
-    sent_topics_df.columns = ['Document_No', 'Dominant_Topic', 'Topic_Perc_Contrib', 'Keywords', 'Text']
-    sent_topics_df.head(10)
+    sent_topics_df.columns = ['Document_No', 'Dominant_Topic', 'Keywords','Text']
+    print(sent_topics_df.head(20))
 
 if __name__=='__main__':
     main()    
