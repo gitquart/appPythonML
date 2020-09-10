@@ -21,7 +21,7 @@ def convertListToString(lst):
 
 
 def clean_corpus(words,sw):
-    print('Cleaning corpus: Getting rid of puntuaction and stopwords...')
+    print('Cleaning list of Documents: Getting rid of puntuaction and stopwords...')
     words_no_pun=[]
     for w in words:
         if w.isalpha():
@@ -54,7 +54,7 @@ def getCountVectorizer():
 
     return lsReturn
 
-def getCorpusList():
+def getRawTextToList():
     print('Getting information from database into a python list...')
     cloud_config= {
 
