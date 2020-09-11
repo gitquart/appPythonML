@@ -21,7 +21,7 @@ def main():
     id2word = corpora.Dictionary(lsDocuments_NoSW)
     # Create Corpus: Term Document Frequency
     corpus = [id2word.doc2bow(text) for text in lsDocuments_NoSW]
-     """
+    """
     
     # Build LDA model
     lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus,
@@ -56,12 +56,12 @@ def main():
 
 
     # Add original text to the end of the output
-    print('Before:',len(sent_topics_df.columns))
+    #'contents' is created as a new set of rows (Series) which can be added later 
     contents = pd.Series(lsDocuments_NoSW)
-    print('After:',len(sent_topics_df.columns))
+    #concat([A,B]) is actually adding another column, hence is correct, so from 3 columns, it ends up with 4
     sent_topics_df = pd.concat([sent_topics_df, contents], axis=1)
     sent_topics_df.columns = ['Document_No', 'Dominant_Topic', 'Keywords','Text']
-    print(sent_topics_df.head(20))
+    mlf.appendInfoToFile(pathtohere,'\\completeDf_10period_docsAndKeywords_LDA.txt',sent_topics_df.to_string())
 
 if __name__=='__main__':
     main()    
