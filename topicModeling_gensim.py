@@ -28,17 +28,17 @@ def main():
     id2word = corpora.Dictionary(lsDocuments_NoSW)
     # Create Corpus: Term Document Frequency
     corpus = [id2word.doc2bow(text) for text in lsDocuments_NoSW]
-    """
+    
     
     # Build LDA model
     lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus,
                                 id2word=id2word,
                                 num_topics=5, 
                                 random_state=100)
-    """                                                      
+                                                          
                             
     #This line saves the LDA model
-    lda_model =gensim.models.ldamodel.LdaModel.load(pathtohere+'\\ldamodels\\ldaModel_10period_1gram')                            
+    #lda_model =gensim.models.ldamodel.LdaModel.load(pathtohere+'\\ldamodels\\ldaModel_10period_1gram')                            
    
     #print('---Printing 100 words per category (LDA)---')
     #print(lda_model.print_topics(num_words=100))
