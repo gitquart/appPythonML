@@ -7,6 +7,8 @@ import pandas as pd
 import numpy as np
 import os
 import gensim
+import seaborn as sns
+import matplotlib.colors as mcolors
 
 sw=stopwords.words('spanish')
 pathtohere=os.getcwd()
@@ -47,6 +49,7 @@ def main():
     sent_topics_df=mlf.getDominantTopicDataFrame(lda_model,corpus,lsDocuments_NoSW,lsSubject)
     #mlf.generateFileSeparatedBySemicolon(sent_topics_df,'LDA_DominantTopic_Subject.txt')
     #Generate graphs
+    """
     doc_lens = [len(d) for d in sent_topics_df.Text]
 
     # Plot
@@ -64,7 +67,27 @@ def main():
     plt.title('Distribution of Document Word Counts', fontdict=dict(size=22))
     plt.savefig(pathtohere+'\\wordsSpreadInAllDoc.png')
     plt.show()
-    
+    """
+    cols = [color for name, color in mcolors.TABLEAU_COLORS.items()]  # more colors: 'mcolors.XKCD_COLORS'
+
+    fig, axes = plt.subplots(2,2,figsize=(16,14), dpi=160, sharex=True, sharey=True)
+
+    for i, ax in enumerate(axes.flatten()):    
+        df_dominant_topic_sub = sent_topics_df.loc[sent_topics_df.Dominant_Topic == i, :]
+        doc_lens = [len(d) for d in df_dominant_topic_sub.Text]
+        ax.hist(doc_lens, bins = 1000, color=cols[i])
+        ax.tick_params(axis='y', labelcolor=cols[i], color=cols[i])
+        sns.kdeplot(doc_lens, color="black", shade=False, ax=ax.twinx())
+        ax.set(xlim=(0, 1000), xlabel='Document Word Count')
+        ax.set_ylabel('Number of Documents', color=cols[i])
+        ax.set_title('Topic: '+str(i), fontdict=dict(size=16, color=cols[i]))
+
+    fig.tight_layout()
+    fig.subplots_adjust(top=0.90)
+    plt.xticks(np.linspace(0,1000,9))
+    fig.suptitle('Distribution of Document Word Counts by Dominant Topic', fontsize=22)
+    plt.savefig(pathtohere+'\\wordsTopicSpreadInAllDoc.png')
+    plt.show()
 
 if __name__=='__main__':
     main()    
