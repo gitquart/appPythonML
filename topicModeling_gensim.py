@@ -5,11 +5,14 @@ from pprint import pprint
 from nltk.corpus import stopwords
 from gensim.utils import simple_preprocess
 import pandas as pd
+import os
 sw=stopwords.words('spanish')
+pathtohere=os.getcwd()
 
 
 def main():
     print('LDA model with gensim, 1-gram')
+   
     lsDocuments=[]
     #Get the the information into a list of documents
     lsDocuments=mlf.getRawTextToList()
@@ -18,14 +21,17 @@ def main():
     id2word = corpora.Dictionary(lsDocuments_NoSW)
     # Create Corpus: Term Document Frequency
     corpus = [id2word.doc2bow(text) for text in lsDocuments_NoSW]
+     """
+    
     # Build LDA model
     lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus,
                                 id2word=id2word,
                                 num_topics=5, 
                                 random_state=100)
-
+    """                                                      
+                            
     #This line saves the LDA model
-    #lda_model.save('ldaModel_10period')                            
+    lda_model =gensim.models.ldamodel.LdaModel.load(pathtohere+'\\ldamodels\\ldaModel_10period_1gram')                            
    
     #print('---Printing 100 words per category (LDA)---')
     #pprint(lda_model.print_topics(num_words=100))
