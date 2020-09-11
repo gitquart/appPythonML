@@ -94,6 +94,33 @@ def appendInfoToFile(path,filename,strcontent):
     txtFile=open(path+filename,'a+')
     txtFile.write(strcontent)
     txtFile.close()
+
+def getDominantTopicDataFrame(lda_model,corpus):
+    sent_topics_df = pd.DataFrame()
+    # Get main topic in each document
+    for i, row_list in enumerate(lda_model[corpus]):
+        row = row_list[0] if lda_model.per_word_topics else row_list            
+        row = sorted(row, key=lambda x: (x[1]), reverse=True)
+        # Get the Dominant topic, Perc Contribution and Keywords for each document
+        for j, (topic_num, prop_topic) in enumerate(row):
+            if j == 0:  # => dominant topic
+                wp = lda_model.show_topic(topic_num)
+                topic_keywords = ", ".join([word for word, prop in wp])
+                sent_topics_df = sent_topics_df.append(pd.Series([int(topic_num), round(prop_topic,4), topic_keywords]), ignore_index=True)
+            else:
+                break
+
+
+    # Add original text to the end of the output
+    #'contents' is created as a new set of rows (Series) which can be added later 
+    contents = pd.Series(lsDocuments_NoSW)
+    subject=pd.Series(lsSubject)
+    #concat([A,B]) is actually adding another column, hence is correct, so from 3 columns, it ends up with 4
+    sent_topics_df = pd.concat([sent_topics_df, contents], axis=1)
+    sent_topics_df = pd.concat([sent_topics_df, subject], axis=1)
+    sent_topics_df.columns = ['Topic_No', 'Dominant_Topic', 'Keywords','Text_Without_stopwords','Subject'] 
+
+    return sent_topics_df   
         
 
    
