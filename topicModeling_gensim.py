@@ -42,14 +42,11 @@ def main():
     print('Starting Dataframe for Dominant topics')
     #Dominant topic section
     sent_topics_df= pd.DataFrame()
-    sent_topics_df=mlf.getDominantTopicDataFrame(lda_model,corpus)
-    #Iterate each row of DataFrame and add to it a semicolon to load it to excel
-    fileContent=''
-    fileContent=sent_topics_df.columns[0]+';'+sent_topics_df.columns[1]+';'+sent_topics_df.columns[2]+';'+sent_topics_df.columns[3]+';'+sent_topics_df.columns[4]+';\n'
-    mlf.appendInfoToFile(pathtohere,'\\LDA_DominantTopic_Subject.txt',fileContent)
-    for index, row in sent_topics_df.iterrows():
-        fileContent=str(row['Topic_No'])+' ;'+str(row['Dominant_Topic'])+' ;'+str(row['Keywords'])+' ;'+str(row['Text_Without_stopwords'])+' ;'+str(row['Subject'])+' ;\n'
-        mlf.appendInfoToFile(pathtohere,'\\LDA_DominantTopic_Subject.txt',fileContent)
+    #sent_topics_df=mlf.getDominantTopicDataFrame(lda_model,corpus,lsDocuments_NoSW,lsSubject)
+    #mlf.generateFileSeparatedBySemicolon(sent_topics_df,'LDA_DominantTopic_Subject.txt')
+
+    #Generate graphs
+    
 
 if __name__=='__main__':
     main()    

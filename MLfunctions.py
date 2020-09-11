@@ -6,6 +6,7 @@ from cassandra.query import SimpleStatement
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer,CountVectorizer
 import os
+import pandas as pd
 nltk.download('stopwords')
 nltk.download('punkt')
 pathtohere=os.getcwd()
@@ -95,7 +96,7 @@ def appendInfoToFile(path,filename,strcontent):
     txtFile.write(strcontent)
     txtFile.close()
 
-def getDominantTopicDataFrame(lda_model,corpus):
+def getDominantTopicDataFrame(lda_model,corpus,lsDocuments_NoSW,lsSubject):
     sent_topics_df = pd.DataFrame()
     # Get main topic in each document
     for i, row_list in enumerate(lda_model[corpus]):
@@ -120,7 +121,15 @@ def getDominantTopicDataFrame(lda_model,corpus):
     sent_topics_df = pd.concat([sent_topics_df, subject], axis=1)
     sent_topics_df.columns = ['Topic_No', 'Dominant_Topic', 'Keywords','Text_Without_stopwords','Subject'] 
 
-    return sent_topics_df   
+    return sent_topics_df 
+
+def generateFileSeparatedBySemicolon(sent_topics_df,fileName):
+    fileContent=''
+    fileContent=sent_topics_df.columns[0]+';'+sent_topics_df.columns[1]+';'+sent_topics_df.columns[2]+';'+sent_topics_df.columns[3]+';'+sent_topics_df.columns[4]+'\n'
+    appendInfoToFile(pathtohere,'\\'+fileName,fileContent)
+    for index, row in sent_topics_df.iterrows():
+        fileContent=str(row['Topic_No'])+' ;'+str(row['Dominant_Topic'])+' ;'+str(row['Keywords'])+' ;'+str(row['Text_Without_stopwords'])+' ;'+str(row['Subject'])+'\n'
+        appendInfoToFile(pathtohere,'\\'+fileName,fileContent)    
         
 
    
