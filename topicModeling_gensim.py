@@ -42,8 +42,9 @@ def main():
     print('Starting Dataframe for Dominant topics')
     #Dominant topic section
     sent_topics_df= pd.DataFrame()
-    #sent_topics_df=mlf.getDominantTopicDataFrame(lda_model,corpus,lsDocuments_NoSW,lsSubject)
+    sent_topics_df=mlf.getDominantTopicDataFrame(lda_model,corpus,lsDocuments_NoSW,lsSubject)
     #mlf.generateFileSeparatedBySemicolon(sent_topics_df,'LDA_DominantTopic_Subject.txt')
+    print(sent_topics_df.Text)
 
     #Generate graphs
     
