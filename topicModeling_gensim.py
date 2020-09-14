@@ -39,13 +39,23 @@ def main():
         lsDocBiGram = [bigram_mod[doc] for doc in lsDocuments_NoSW]
         lsDocuments_NoSW.clear()
         lsDocuments_NoSW = [[word for word in simple_preprocess(str(doc)) if word not in sw] for doc in lsDocBiGram]
+        """
         print('Getting bigrams list...')
         for doc in lsDocuments_NoSW:
             for word in doc:
                 mlf.appendInfoToFile(pathtohere,'\\bigrams.txt',word+'\n')
+        """        
 
     if(op==3):
         print('LDA model with gensim for 3 gram')
+        bigram = gensim.models.Phrases(lsDocuments_NoSW, min_count=5, threshold=100)
+        bigram_mod = gensim.models.phrases.Phraser(bigram)
+        trigram = gensim.models.Phrases(bigram[lsDocuments_NoSW], threshold=100)
+        trigram_mod = gensim.models.phrases.Phraser(trigram)
+        lsDocTrigram = [trigram_mod[doc] for doc in lsDocuments_NoSW]
+        lsDocuments_NoSW.clear()
+        lsDocuments_NoSW = [[word for word in simple_preprocess(str(doc)) if word not in sw] for doc in lsDocTrigram]
+
 
     # Create Dictionary
     id2word = corpora.Dictionary(lsDocuments_NoSW)
@@ -57,7 +67,7 @@ def main():
                                 num_topics=5, 
                                 random_state=100)
                                                         
-    mlf.generatePyLDAVis(lda_model,corpus)    
+    mlf.generatePyLDAVis(lda_model,corpus,'vis_1gram.html')    
 
    
     
