@@ -3,19 +3,34 @@ from gensim import corpora
 from nltk.corpus import stopwords
 from gensim.utils import simple_preprocess
 import matplotlib.pyplot as plt
-import pandas as pd
 import numpy as np
+import pandas as pd
 import os
 import gensim
 import seaborn as sns
 import matplotlib.colors as mcolors
+
 
 sw=stopwords.words('spanish')
 pathtohere=os.getcwd()
 
 
 def main():
-    print('LDA model with gensim, 1-gram')
+    print('LDA model with gensim')
+    print('1) 1 gram, 2) 2 gram, 3) 3 gram')
+    op=input()
+    op=int(op)
+    if(op==1):
+        print('LDA model with gensim for 1 gram')
+
+    if(op==2):
+        print('LDA model with gensim for 2 gram')
+
+    if(op==3):
+        print('LDA model with gensim for 3 gram')
+
+
+    
     lsReturn=[]
     lsDocuments=[]
     lsSubject=[]
@@ -49,45 +64,14 @@ def main():
     sent_topics_df=mlf.getDominantTopicDataFrame(lda_model,corpus,lsDocuments_NoSW,lsSubject)
     #mlf.generateFileSeparatedBySemicolon(sent_topics_df,'LDA_DominantTopic_Subject.txt')
     #Generate graphs
-    """
-    doc_lens = [len(d) for d in sent_topics_df.Text]
+    mlf.generatePyLDAVis(lda_model)
+    
+    
+    
+   
+    
+    
 
-    # Plot
-    plt.figure(figsize=(16,7), dpi=160)
-    plt.hist(doc_lens, bins = 1000, color='navy')
-    plt.text(750, 100, "Mean   : " + str(round(np.mean(doc_lens))))
-    plt.text(750,  90, "Median : " + str(round(np.median(doc_lens))))
-    plt.text(750,  80, "Stdev   : " + str(round(np.std(doc_lens))))
-    plt.text(750,  70, "1%ile    : " + str(round(np.quantile(doc_lens, q=0.01))))
-    plt.text(750,  60, "99%ile  : " + str(round(np.quantile(doc_lens, q=0.99))))
-
-    plt.gca().set(xlim=(0, 1000), ylabel='Number of Documents', xlabel='Document Word Count')
-    plt.tick_params(size=16)
-    plt.xticks(np.linspace(0,1000,9))
-    plt.title('Distribution of Document Word Counts', fontdict=dict(size=22))
-    plt.savefig(pathtohere+'\\wordsSpreadInAllDoc.png')
-    plt.show()
-    """
-    cols = [color for name, color in mcolors.TABLEAU_COLORS.items()]  # more colors: 'mcolors.XKCD_COLORS'
-
-    fig, axes = plt.subplots(2,2,figsize=(16,14), dpi=160, sharex=True, sharey=True)
-
-    for i, ax in enumerate(axes.flatten()):    
-        df_dominant_topic_sub = sent_topics_df.loc[sent_topics_df.Dominant_Topic == i, :]
-        doc_lens = [len(d) for d in df_dominant_topic_sub.Text]
-        ax.hist(doc_lens, bins = 1000, color=cols[i])
-        ax.tick_params(axis='y', labelcolor=cols[i], color=cols[i])
-        sns.kdeplot(doc_lens, color="black", shade=False, ax=ax.twinx())
-        ax.set(xlim=(0, 1000), xlabel='Document Word Count')
-        ax.set_ylabel('Number of Documents', color=cols[i])
-        ax.set_title('Topic: '+str(i), fontdict=dict(size=16, color=cols[i]))
-
-    fig.tight_layout()
-    fig.subplots_adjust(top=0.90)
-    plt.xticks(np.linspace(0,1000,9))
-    fig.suptitle('Distribution of Document Word Counts by Dominant Topic', fontsize=22)
-    plt.savefig(pathtohere+'\\wordsTopicSpreadInAllDoc.png')
-    plt.show()
 
 if __name__=='__main__':
     main()    

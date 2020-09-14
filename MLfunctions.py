@@ -7,6 +7,11 @@ from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer,CountVectorizer
 import os
 import pandas as pd
+import seaborn as sns
+import matplotlib.colors as mcolors
+import matplotlib.pyplot as plt
+import numpy as np
+import pyLDAvis.gensim
 nltk.download('stopwords')
 nltk.download('punkt')
 pathtohere=os.getcwd()
@@ -129,7 +134,30 @@ def generateFileSeparatedBySemicolon(sent_topics_df,fileName):
     appendInfoToFile(pathtohere,'\\'+fileName,fileContent)
     for index, row in sent_topics_df.iterrows():
         fileContent=str(row['Topic_No'])+' ;'+str(row['Dominant_Topic'])+' ;'+str(row['Keywords'])+' ;'+str(row['Text'])+' ;'+str(row['Subject'])+'\n'
-        appendInfoToFile(pathtohere,'\\'+fileName,fileContent)    
+        appendInfoToFile(pathtohere,'\\'+fileName,fileContent)  
+
+
+def generateGraphDWC(sent_topics_df):
+    doc_lens = [len(d) for d in sent_topics_df.Text]
+    # Plot
+    plt.figure(figsize=(16,7), dpi=160)
+    plt.hist(doc_lens, bins = 1000, color='navy')
+    plt.text(750, 100, "Mean   : " + str(round(np.mean(doc_lens))))
+    plt.text(750,  90, "Median : " + str(round(np.median(doc_lens))))
+    plt.text(750,  80, "Stdev   : " + str(round(np.std(doc_lens))))
+    plt.text(750,  70, "1%ile    : " + str(round(np.quantile(doc_lens, q=0.01))))
+    plt.text(750,  60, "99%ile  : " + str(round(np.quantile(doc_lens, q=0.99))))
+
+    plt.gca().set(xlim=(0, 1000), ylabel='Number of Documents', xlabel='Document Word Count')
+    plt.tick_params(size=16)
+    plt.xticks(np.linspace(0,1000,9))
+    plt.title('Distribution of Document Word Counts', fontdict=dict(size=22))
+    plt.savefig(pathtohere+'\\wordsSpreadInAllDoc.png')
+    plt.show()
+
+def generatePyLDAVis(lda_model):
+    vis = pyLDAvis.gensim.prepare(lda_model, corpus, dictionary=lda_model.id2word)
+    pyLDAvis.save_html(vis,'vis.html')    
         
 
    
