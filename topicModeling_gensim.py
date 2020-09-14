@@ -28,14 +28,21 @@ def main():
     lsReturn=mlf.getRawTextToList()
     lsDocuments=lsReturn[0]
     lsSubject=lsReturn[1]
+    lsDocuments_NoSW = [[word for word in simple_preprocess(str(doc)) if word not in sw] for doc in lsDocuments]
     if(op==1):
         print('LDA model with gensim for 1 gram')
-        lsDocuments_NoSW = [[word for word in simple_preprocess(str(doc)) if word not in sw] for doc in lsDocuments]
         
-
     if(op==2):
         print('LDA model with gensim for 2 gram')
-        bigram = gensim.models.Phrases(lsDocuments, min_count=5, threshold=100)
+        bigram = gensim.models.Phrases(lsDocuments_NoSW, min_count=5, threshold=100)
+        bigram_mod = gensim.models.phrases.Phraser(bigram)
+        lsDocBiGram = [bigram_mod[doc] for doc in lsDocuments_NoSW]
+        lsDocuments_NoSW.clear()
+        lsDocuments_NoSW = [[word for word in simple_preprocess(str(doc)) if word not in sw] for doc in lsDocBiGram]
+        print('Getting bigrams list...')
+        for doc in lsDocuments_NoSW:
+            for word in doc:
+                mlf.appendInfoToFile(pathtohere,'\\bigrams.txt',word+'\n')
 
     if(op==3):
         print('LDA model with gensim for 3 gram')
@@ -50,7 +57,7 @@ def main():
                                 num_topics=5, 
                                 random_state=100)
                                                         
-    mlf.generatePyLDAVis(lda_model)    
+    mlf.generatePyLDAVis(lda_model,corpus)    
 
    
     

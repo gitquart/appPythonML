@@ -155,7 +155,7 @@ def generateGraphDWC(sent_topics_df):
     plt.savefig(pathtohere+'\\wordsSpreadInAllDoc.png')
     plt.show()
 
-def generatePyLDAVis(lda_model):
+def generatePyLDAVis(lda_model,corpus):
     vis = pyLDAvis.gensim.prepare(lda_model, corpus, dictionary=lda_model.id2word)
     pyLDAvis.save_html(vis,'vis.html')    
         
