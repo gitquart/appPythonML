@@ -39,12 +39,7 @@ def main():
         lsDocBiGram = [bigram_mod[doc] for doc in lsDocuments_NoSW]
         lsDocuments_NoSW.clear()
         lsDocuments_NoSW = [[word for word in simple_preprocess(str(doc)) if word not in sw] for doc in lsDocBiGram]
-        """
-        print('Getting bigrams list...')
-        for doc in lsDocuments_NoSW:
-            for word in doc:
-                mlf.appendInfoToFile(pathtohere,'\\bigrams.txt',word+'\n')
-        """        
+          
 
     if(op==3):
         print('LDA model with gensim for 3 gram')
@@ -55,8 +50,16 @@ def main():
         lsDocTrigram = [trigram_mod[doc] for doc in lsDocuments_NoSW]
         lsDocuments_NoSW.clear()
         lsDocuments_NoSW = [[word for word in simple_preprocess(str(doc)) if word not in sw] for doc in lsDocTrigram]
+        
+        """
+        print('Getting bigrams list...')
+        for doc in lsDocuments_NoSW:
+            for word in doc:
+                mlf.appendInfoToFile(pathtohere,'\\trigrams.txt',word+'\n')
+        """        
+          
 
-
+    print('LDA Model starting...')
     # Create Dictionary
     id2word = corpora.Dictionary(lsDocuments_NoSW)
     # Create Corpus: Term Document Frequency
@@ -66,8 +69,12 @@ def main():
                                 id2word=id2word,
                                 num_topics=5, 
                                 random_state=100)
+    
+    df=pd.DataFrame()
+    df=mlf.getDominantTopicDataFrame(lda_model,corpus,lsDocuments_NoSW,lsSubject)  
+    mlf.generateFileSeparatedBySemicolon(df,'trigram_csv.txt')                          
                                                         
-    mlf.generatePyLDAVis(lda_model,corpus,'vis_1gram.html')    
+    mlf.generatePyLDAVis(lda_model,corpus,'vis_3gram.html')    
 
    
     
