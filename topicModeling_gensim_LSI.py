@@ -73,7 +73,7 @@ def main():
     #df=mlf.getDominantTopicDataFrame(lsi_model,corpus,lsDocuments_NoSW,lsSubject)  
     #mlf.generateFileSeparatedBySemicolon(df,'LSI_trigram_csv.txt')                          
                                                         
-    mlf.generatePyLDAVis(lsi_model,corpus,'LSI_vis_3gram.html')    
+ 
 
    
     

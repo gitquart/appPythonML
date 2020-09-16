@@ -17,7 +17,7 @@ pathtohere=os.getcwd()
 
 
 def main():
-    print('LDA model with gensim')
+    print('HDP model with gensim')
     print('1) 1 gram, 2) 2 gram, 3) 3 gram')
     op=input()
     op=int(op)
@@ -30,10 +30,10 @@ def main():
     lsSubject=lsReturn[1]
     lsDocuments_NoSW = [[word for word in simple_preprocess(str(doc)) if word not in sw] for doc in lsDocuments]
     if(op==1):
-        print('LDA model with gensim for 1 gram')
+        print('HDP model with gensim for 1 gram')
         
     if(op==2):
-        print('LDA model with gensim for 2 gram')
+        print('HDP model with gensim for 2 gram')
         bigram = gensim.models.Phrases(lsDocuments_NoSW, min_count=5, threshold=100)
         bigram_mod = gensim.models.phrases.Phraser(bigram)
         lsDocBiGram = [bigram_mod[doc] for doc in lsDocuments_NoSW]
@@ -42,7 +42,7 @@ def main():
           
 
     if(op==3):
-        print('LDA model with gensim for 3 gram')
+        print('HDP model with gensim for 3 gram')
         bigram = gensim.models.Phrases(lsDocuments_NoSW, min_count=5, threshold=100)
         bigram_mod = gensim.models.phrases.Phraser(bigram)
         trigram = gensim.models.Phrases(bigram[lsDocuments_NoSW], threshold=100)
@@ -59,36 +59,24 @@ def main():
         """        
           
 
-    print('LDA Model starting...')
+    print('HDP Model starting...')
     # Create Dictionary
     id2word = corpora.Dictionary(lsDocuments_NoSW)
     # Create Corpus: Term Document Frequency
     corpus = [id2word.doc2bow(text) for text in lsDocuments_NoSW]
     # Build LDA model
-    lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus,
-                                id2word=id2word,
-                                num_topics=5, 
-                                random_state=100)
-
+    hdp_model = gensim.models.hdpmodel.HdpModel(corpus=corpus,
+                                id2word=id2word)
+    
     print('Printing topics')
-    lda_topics=lda_model.print_topics()
-    for topic in lda_topics:
-        mlf.appendInfoToFile(pathtohere,'\\list_of_topics_lda.txt',str(topic)+'\n')
-
-    
+    hdp_topics=hdp_model.print_topics()
+    for topic in hdp_topics:
+        mlf.appendInfoToFile(pathtohere,'\\list_of_topics_hdp.txt',str(topic)+'\n')
     #df=pd.DataFrame()
-    #df=mlf.getDominantTopicDataFrame(lda_model,corpus,lsDocuments_NoSW,lsSubject)  
-    #mlf.generateFileSeparatedBySemicolon(df,'trigram_csv.txt')                          
+    #df=mlf.getDominantTopicDataFrame(lsi_model,corpus,lsDocuments_NoSW,lsSubject)  
+    #mlf.generateFileSeparatedBySemicolon(df,'LSI_trigram_csv.txt')                          
                                                         
-    #mlf.generatePyLDAVis(lda_model,corpus,'vis_3gram.html')    
-
-   
-    
-    
-    
-   
-    
-    
+ 
 
 
 if __name__=='__main__':
