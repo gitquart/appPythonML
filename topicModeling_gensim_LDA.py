@@ -67,13 +67,13 @@ def main():
     # Build LDA model
     lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus,
                                 id2word=id2word,
-                                num_topics=5, 
+                                num_topics=20, 
                                 random_state=100)
 
     print('Printing topics')
     lda_topics=lda_model.print_topics()
     for topic in lda_topics:
-        mlf.appendInfoToFile(pathtohere,'\\list_of_topics_lda.txt',str(topic)+'\n')
+        mlf.appendInfoToFile(pathtohere,'\\list_of_topics_lda_2.txt',str(topic)+'\n')
 
     
     #df=pd.DataFrame()
