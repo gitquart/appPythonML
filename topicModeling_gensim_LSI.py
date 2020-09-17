@@ -2,6 +2,7 @@ import MLfunctions as mlf
 from gensim import corpora
 from nltk.corpus import stopwords
 from gensim.utils import simple_preprocess
+from gensim.models import CoherenceModel
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -67,22 +68,16 @@ def main():
     # Build LDA model
     lsi_model = gensim.models.LsiModel(corpus=corpus,
                                 id2word=id2word,
-                                num_topics=5)
+                                num_topics=20)
     
     df=pd.DataFrame()
     #df=mlf.getDominantTopicDataFrame(lsi_model,corpus,lsDocuments_NoSW,lsSubject)  
-    #mlf.generateFileSeparatedBySemicolon(df,'LSI_trigram_csv.txt')                          
+    #mlf.generateFileSeparatedBySemicolon(df,'LSI_trigram_csv.txt')    
+
+    lsi_cm=CoherenceModel(model=lsi_model,corpus=corpus,dictionary=id2word,texts=lsDocuments_NoSW)
+    print('LSI Coherence:',lsi_cm.get_coherence())                       
                                                         
  
-
-   
-    
-    
-    
-   
-    
-    
-
 
 if __name__=='__main__':
     main()    

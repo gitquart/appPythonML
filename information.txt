@@ -28,3 +28,8 @@ Start ML with 10th period
       type_of_thesis
 Prueba 2:
 -Con 1,2,3 grams obtener las palabras significativas con 5 componentes con campos sin filtro , con varias técnicas, con gráfica      
+
+Coherence values (Results from code)
+
+LDA Coherence: 0.46655122251053244
+LSI Coherence: 0.363933021958608

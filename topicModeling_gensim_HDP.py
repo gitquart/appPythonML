@@ -2,6 +2,7 @@ import MLfunctions as mlf
 from gensim import corpora
 from nltk.corpus import stopwords
 from gensim.utils import simple_preprocess
+from gensim.models import CoherenceModel
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -67,14 +68,17 @@ def main():
     # Build LDA model
     hdp_model = gensim.models.hdpmodel.HdpModel(corpus=corpus,
                                 id2word=id2word)
-    
+    """
     print('Printing topics')
     hdp_topics=hdp_model.print_topics()
     for topic in hdp_topics:
         mlf.appendInfoToFile(pathtohere,'\\list_of_topics_hdp.txt',str(topic)+'\n')
     #df=pd.DataFrame()
     #df=mlf.getDominantTopicDataFrame(lsi_model,corpus,lsDocuments_NoSW,lsSubject)  
-    #mlf.generateFileSeparatedBySemicolon(df,'LSI_trigram_csv.txt')                          
+    #mlf.generateFileSeparatedBySemicolon(df,'LSI_trigram_csv.txt') 
+    """ 
+    hdp_cm=CoherenceModel(model=hdp_model,corpus=corpus,dictionary=id2word,texts=lsDocuments_NoSW)
+    print('HDP Coherence:',hdp_cm.get_coherence())                            
                                                         
  
 

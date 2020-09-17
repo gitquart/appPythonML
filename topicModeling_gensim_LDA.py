@@ -1,12 +1,14 @@
 import MLfunctions as mlf
+import gensim
 from gensim import corpora
-from nltk.corpus import stopwords
 from gensim.utils import simple_preprocess
+from gensim.models import CoherenceModel
+from nltk.corpus import stopwords
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import os
-import gensim
+
 import seaborn as sns
 import matplotlib.colors as mcolors
 
@@ -70,6 +72,7 @@ def main():
                                 num_topics=20, 
                                 random_state=100)
 
+    """
     print('Printing topics')
     lda_topics=lda_model.print_topics()
     for topic in lda_topics:
@@ -80,7 +83,11 @@ def main():
     df=mlf.getDominantTopicDataFrame(lda_model,corpus,lsDocuments_NoSW,lsSubject)  
     mlf.generateFileSeparatedBySemicolon(df,'1gram_csv_20_topics.txt')                          
                                                         
-    #mlf.generatePyLDAVis(lda_model,corpus,'vis_1gram.html')    
+    mlf.generatePyLDAVis(lda_model,corpus,'vis_1gram.html')
+    """
+
+    lda_cm=CoherenceModel(model=lda_model,corpus=corpus,dictionary=id2word,texts=lsDocuments_NoSW)
+    print('LDA Coherence:',lda_cm.get_coherence())    
 
    
     
