@@ -73,14 +73,14 @@ def main():
     print('Printing topics')
     lda_topics=lda_model.print_topics()
     for topic in lda_topics:
-        mlf.appendInfoToFile(pathtohere,'\\list_of_topics_lda_2.txt',str(topic)+'\n')
+        mlf.appendInfoToFile(pathtohere,'\\list_of_topics_lda.txt',str(topic)+'\n')
 
     
-    #df=pd.DataFrame()
-    #df=mlf.getDominantTopicDataFrame(lda_model,corpus,lsDocuments_NoSW,lsSubject)  
-    #mlf.generateFileSeparatedBySemicolon(df,'trigram_csv.txt')                          
+    df=pd.DataFrame()
+    df=mlf.getDominantTopicDataFrame(lda_model,corpus,lsDocuments_NoSW,lsSubject)  
+    mlf.generateFileSeparatedBySemicolon(df,'1gram_csv_20_topics.txt')                          
                                                         
-    #mlf.generatePyLDAVis(lda_model,corpus,'vis_3gram.html')    
+    #mlf.generatePyLDAVis(lda_model,corpus,'vis_1gram.html')    
 
    
     
