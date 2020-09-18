@@ -34,3 +34,7 @@ Coherence values (Results from code)
 LDA Coherence: 0.46655122251053244
 LSI Coherence: 0.363933021958608
 HDP Coherence: 0.47022234102061455
+
+LDA Coherence: 	0.47
+LSI Coherence: 	0.36
+HDP Coherence: 	0.47
