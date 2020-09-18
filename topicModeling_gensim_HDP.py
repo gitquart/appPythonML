@@ -80,7 +80,6 @@ def main():
     hdp_cm=CoherenceModel(model=hdp_model,corpus=corpus,dictionary=id2word,texts=lsDocuments_NoSW)
     print('HDP Coherence:',hdp_cm.get_coherence())                            
                                                         
- 
 
 
 if __name__=='__main__':
