@@ -77,17 +77,18 @@ def main():
     lda_topics=lda_model.print_topics()
     for topic in lda_topics:
         mlf.appendInfoToFile(pathtohere,'\\list_of_topics_lda.txt',str(topic)+'\n')
-
+    """
     
     df=pd.DataFrame()
     df=mlf.getDominantTopicDataFrame(lda_model,corpus,lsDocuments_NoSW,lsSubject)  
-    mlf.generateFileSeparatedBySemicolon(df,'1gram_csv_20_topics.txt')                          
+    mlf.generateFileSeparatedBySemicolon(df,str(op)+'gram_csv_20_topics.txt')                          
                                                         
-    mlf.generatePyLDAVis(lda_model,corpus,'vis_1gram.html')
+    mlf.generatePyLDAVis(lda_model,corpus,'vis_'+str(op)+'gram.html')
+    
     """
-
     lda_cm=CoherenceModel(model=lda_model,corpus=corpus,dictionary=id2word,texts=lsDocuments_NoSW)
     print('LDA Coherence:',lda_cm.get_coherence())    
+    """
 
    
     
