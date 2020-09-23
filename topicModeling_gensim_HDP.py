@@ -29,6 +29,18 @@ def main():
     lsReturn=mlf.getRawTextToList()
     lsDocuments=lsReturn[0]
     lsSubject=lsReturn[1]
+    #Read the unwanted words and then add them up to stopwords
+    lsUnWantedWords=[]
+    lsUnWantedWords=mlf.readFile('removed_words.txt')
+    for word in lsUnWantedWords:
+        sw.append(word.strip())
+        
+    #Read the Notsure words and then add them up to stopwords
+    lsNotSureWords=[]
+    lsNotSureWords=mlf.readFile('notsure_words.txt')
+    for word in lsNotSureWords:
+        sw.append(word.strip())
+       
     lsDocuments_NoSW = [[word for word in simple_preprocess(str(doc)) if word not in sw] for doc in lsDocuments]
     if(op==1):
         print('HDP model with gensim for 1 gram')
@@ -65,20 +77,27 @@ def main():
     id2word = corpora.Dictionary(lsDocuments_NoSW)
     # Create Corpus: Term Document Frequency
     corpus = [id2word.doc2bow(text) for text in lsDocuments_NoSW]
-    # Build LDA model
-    hdp_model = gensim.models.hdpmodel.HdpModel(corpus=corpus,
-                                id2word=id2word)
-    """
+    # Build HDP model
+    hdp_model = gensim.models.hdpmodel.HdpModel(corpus=corpus,id2word=id2word)
+    
     print('Printing topics')
     hdp_topics=hdp_model.print_topics()
     for topic in hdp_topics:
-        mlf.appendInfoToFile(pathtohere,'\\list_of_topics_hdp.txt',str(topic)+'\n')
-    #df=pd.DataFrame()
-    #df=mlf.getDominantTopicDataFrame(lsi_model,corpus,lsDocuments_NoSW,lsSubject)  
-    #mlf.generateFileSeparatedBySemicolon(df,'LSI_trigram_csv.txt') 
+        mlf.appendInfoToFile(pathtohere,'\\list_of_topics_hdp_'+str(op)+'gram_RemovedWords_NotSure.txt',str(topic)+'\n')
+   
+
+    """
+    HDP no genera esta función, no tiene un parámetro necesario que sí tiene LDA
+    Para saber el no. de tópicas usar la función de arriba
+    df=pd.DataFrame()
+    df=mlf.getDominantTopicDataFrame(hdp_model,corpus,lsDocuments_NoSW,lsSubject)  
+    mlf.generateFileSeparatedBySemicolon(df,'HDP_'+str(op)+'gram_csv.txt') 
+    """
+    
     """ 
     hdp_cm=CoherenceModel(model=hdp_model,corpus=corpus,dictionary=id2word,texts=lsDocuments_NoSW)
-    print('HDP Coherence:',hdp_cm.get_coherence())                            
+    print('HDP Coherence:',hdp_cm.get_coherence())       
+    """                     
                                                         
 
 

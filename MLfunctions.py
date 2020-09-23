@@ -158,6 +158,15 @@ def generateGraphDWC(sent_topics_df):
 def generatePyLDAVis(lda_model,corpus,fileName):
     vis = pyLDAvis.gensim.prepare(lda_model, corpus, dictionary=lda_model.id2word)
     pyLDAvis.save_html(vis,fileName)    
+
+
+def readFile(file):
+    ls=[]
+    file1 = open(file, 'r',encoding='utf8') 
+    Lines = file1.readlines() 
+    for line in Lines: 
+        ls.append(line)   
+    return ls     
         
 
    
