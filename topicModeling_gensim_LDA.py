@@ -35,13 +35,13 @@ def main():
     lsUnWantedWords=mlf.readFile('removed_words.txt')
     for word in lsUnWantedWords:
         sw.append(word.strip())
-    """ 
+    
     #Read the Notsure words and then add them up to stopwords
     lsNotSureWords=[]
     lsNotSureWords=mlf.readFile('notsure_words.txt')
     for word in lsNotSureWords:
         sw.append(word.strip())
-    """    
+       
   
     lsDocuments_NoSW = [[word for word in simple_preprocess(str(doc)) if word not in sw] for doc in lsDocuments]
 
@@ -83,7 +83,7 @@ def main():
     # Build LDA model
     lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus,
                                 id2word=id2word,
-                                num_topics=20, 
+                                num_topics=5, 
                                 random_state=100)
 
     """
@@ -95,9 +95,9 @@ def main():
     
     df=pd.DataFrame()
     df=mlf.getDominantTopicDataFrame(lda_model,corpus,lsDocuments_NoSW,lsSubject)  
-    mlf.generateFileSeparatedBySemicolon(df,str(op)+'gram_csv_20_topics_UnwantedWords.txt')                          
+    mlf.generateFileSeparatedBySemicolon(df,str(op)+'gram_csv_5_topics_UnwantedWords_Notsurewds.txt')                          
                                                         
-    mlf.generatePyLDAVis(lda_model,corpus,'vis_'+str(op)+'gram_20_topics_UnwantedWords.html')
+    mlf.generatePyLDAVis(lda_model,corpus,'vis_'+str(op)+'gram_5_topics_UnwantedWords_Notsurewds.html')
     
     """
     lda_cm=CoherenceModel(model=lda_model,corpus=corpus,dictionary=id2word,texts=lsDocuments_NoSW)
