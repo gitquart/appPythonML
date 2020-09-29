@@ -1,0 +1,31 @@
+Esta carpeta contiene resultados bajo las siguientes condiciones:
+1)LDA, 20 tópicos, 5 tópicos, sin palabras "unwanted" y "not sure"
+
+De acuerdo al análisis de los modelos de esta carpeta, se concluyó lo siguiente:
+1)Agregar a la lista de unwanted los subjects
+2) De acuerdo a los 20 tópicos de LDA se le asignó una etiqueta inferida por Jesús a los resultados ("inferencias propias") con fines comparativos vs datos reales del 29 de sep 2020.
+
+Inferencias propias
+-----------------------
+Tópicos en LDA (palabras removidas:"removed" ,"subjects" y "not sure") Con lambda=1 (2gram_csv_20_topics_UnwantedWords_notsurewds_EXPECTATION)
+
+1. Constitucional
+2. Constitucional
+3.Civil
+4. Constitucional
+5. Constitucional
+6. Administrativo
+7.Constitucional
+8.Penal
+9.Constitucional
+10.Civil
+11.Laboral
+12.Administrativa
+13.Civil
+14. Penal
+15.Administrativa
+16.Penal
+17.Civil
+18.Laboral
+19.Laboral
+20. Administrativa

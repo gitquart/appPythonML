@@ -187,13 +187,15 @@ def compute_coherence_values(dictionary, corpus, texts, limit, start=2, step=3):
     model_list : List of LDA topic models
     coherence_values : Coherence values corresponding to the LDA model with respective number of topics
     """
-    mallet_path='/mallet-2.0.8/bin/mallet'
+    #os.environ['MALLET_HOME'] = 'C:\\mallet-2.0.8'
+    #mallet_path='C:\\mallet-2.0.8\\bin\\mallet'
     coherence_values = []
     model_list = []
     for num_topics in range(start, limit, step):
-        model = gensim.models.wrappers.LdaMallet(mallet_path, corpus=corpus, num_topics=num_topics, id2word=id2word)
-        model_list.append(model)
-        coherencemodel = CoherenceModel(model=model, texts=texts, dictionary=dictionary, coherence='c_v')
+        lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus,id2word=dictionary,num_topics=num_topics, random_state=100)
+        #model = gensim.models.wrappers.LdaMallet(mallet_path, corpus=corpus, num_topics=num_topics, id2word=dictionary)
+        model_list.append(lda_model)
+        coherencemodel = CoherenceModel(model=lda_model, texts=texts, dictionary=dictionary, coherence='c_v')
         coherence_values.append(coherencemodel.get_coherence())
 
     return model_list, coherence_values    

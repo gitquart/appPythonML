@@ -85,10 +85,10 @@ def main():
     corpus = [id2word.doc2bow(text) for text in lsDocuments_NoSW]
     #Generate best coherence ranking
     print('Generating ranking...')
-    model_list, coherence_values = mlf.compute_coherence_values(dictionary=id2word, corpus=corpus, texts=lsDocuments_NoSW, start=2, limit=40, step=6)
+    model_list, coherence_values = mlf.compute_coherence_values(dictionary=id2word, corpus=corpus, texts=lsDocuments_NoSW, start=2, limit=45, step=6)
     print('Plotting ranking...')
     # Show graph
-    limit=40; start=2; step=6;
+    limit=45; start=2; step=6;
     x = range(start, limit, step)
     plt.plot(x, coherence_values)
     plt.xlabel("Num Topics")
@@ -119,11 +119,6 @@ def main():
     lda_cm=CoherenceModel(model=lda_model,corpus=corpus,dictionary=id2word,texts=lsDocuments_NoSW)
     print('LDA Coherence:',lda_cm.get_coherence())    
     """
-
-    
-
-
-
 
 
 
