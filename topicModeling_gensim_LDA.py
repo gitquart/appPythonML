@@ -23,7 +23,7 @@ def main():
     print('1) 1 gram, 2) 2 gram, 3) 3 gram')
     op=input()
     op=int(op)
-    numberTopic=5
+    numberTopic=20
     lsReturn=[]
     lsDocuments=[]
     lsSubject=[]
@@ -36,16 +36,17 @@ def main():
     lsUnWantedWords=mlf.readFile('removed_words.txt')
     for word in lsUnWantedWords:
         sw.append(word.strip())
-    """
+    
     #Read the Notsure words and then add them up to stopwords
     lsNotSureWords=[]
     lsNotSureWords=mlf.readFile('notsure_words.txt')
     for word in lsNotSureWords:
         sw.append(word.strip())
-    """    
+       
      
     
     lsDocuments_NoSW = [[word for word in simple_preprocess(str(doc)) if word not in sw] for doc in lsDocuments]
+
 
     if(op==1):
         print('LDA model with gensim for 1 gram')
@@ -82,6 +83,19 @@ def main():
     id2word = corpora.Dictionary(lsDocuments_NoSW)
     # Create Corpus: Term Document Frequency
     corpus = [id2word.doc2bow(text) for text in lsDocuments_NoSW]
+    #Generate best coherence ranking
+    print('Generating ranking...')
+    model_list, coherence_values = mlf.compute_coherence_values(dictionary=id2word, corpus=corpus, texts=lsDocuments_NoSW, start=2, limit=40, step=6)
+    print('Plotting ranking...')
+    # Show graph
+    limit=40; start=2; step=6;
+    x = range(start, limit, step)
+    plt.plot(x, coherence_values)
+    plt.xlabel("Num Topics")
+    plt.ylabel("Coherence score")
+    plt.legend(("coherence_values"), loc='best')
+    plt.show()
+
     # Build LDA model
     lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus,
                                 id2word=id2word,
@@ -97,14 +111,18 @@ def main():
     
     df=pd.DataFrame()
     df=mlf.getDominantTopicDataFrame(lda_model,corpus,lsDocuments_NoSW,lsSubject)  
-    mlf.generateFileSeparatedBySemicolon(df,str(op)+'gram_csv_'+str(numberTopic)+'_topics_UnwantedWords.txt')                          
+    mlf.generateFileSeparatedBySemicolon(df,str(op)+'gram_csv_'+str(numberTopic)+'_withoutCompleteList.txt')                          
                                                         
-    mlf.generatePyLDAVis(lda_model,corpus,'vis_'+str(op)+'gram_'+str(numberTopic)+'_topics_UnwantedWords.html')
+    mlf.generatePyLDAVis(lda_model,corpus,'vis_'+str(op)+'gram_'+str(numberTopic)+'_withoutCompleteList.html')
     
     """
     lda_cm=CoherenceModel(model=lda_model,corpus=corpus,dictionary=id2word,texts=lsDocuments_NoSW)
     print('LDA Coherence:',lda_cm.get_coherence())    
     """
+
+    
+
+
 
 
 

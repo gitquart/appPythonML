@@ -12,6 +12,8 @@ import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 import numpy as np
 import pyLDAvis.gensim
+import gensim
+from gensim.models import CoherenceModel
 nltk.download('stopwords')
 nltk.download('punkt')
 pathtohere=os.getcwd()
@@ -166,12 +168,38 @@ def readFile(file):
     Lines = file1.readlines() 
     for line in Lines: 
         ls.append(line)   
-    return ls     
-        
+    return ls 
 
-   
 
-    
+def compute_coherence_values(dictionary, corpus, texts, limit, start=2, step=3):
+    """
+    Compute c_v coherence for various number of topics
+
+    Parameters:
+    ----------
+    dictionary : Gensim dictionary
+    corpus : Gensim corpus
+    texts : List of input texts
+    limit : Max num of topics
+
+    Returns:
+    -------
+    model_list : List of LDA topic models
+    coherence_values : Coherence values corresponding to the LDA model with respective number of topics
+    """
+    mallet_path='/mallet-2.0.8/bin/mallet'
+    coherence_values = []
+    model_list = []
+    for num_topics in range(start, limit, step):
+        model = gensim.models.wrappers.LdaMallet(mallet_path, corpus=corpus, num_topics=num_topics, id2word=id2word)
+        model_list.append(model)
+        coherencemodel = CoherenceModel(model=model, texts=texts, dictionary=dictionary, coherence='c_v')
+        coherence_values.append(coherencemodel.get_coherence())
+
+    return model_list, coherence_values    
+
+
+         
     
 class CassandraConnection():
     cc_user='quartadmin'

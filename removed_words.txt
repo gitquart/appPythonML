@@ -43,3 +43,9 @@ sino
 sólo
 tesis
 tribunal
+administrativa
+civil
+común
+constitucional
+laboral
+penal
