@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import os
-
+import sys
 import seaborn as sns
 import matplotlib.colors as mcolors
 
@@ -20,7 +20,7 @@ pathtohere=os.getcwd()
 
 def main():
     print('LDA model with gensim')
-    print('1) 1 gram, 2) 2 gram, 3) 3 gram')
+    print('1) 1 gram, 2) 2 gram, 3) 3 gram, 4) Ranking of coherence')
     op=input()
     op=int(op)
     numberTopic=20
@@ -75,27 +75,38 @@ def main():
         for doc in lsDocuments_NoSW:
             for word in doc:
                 mlf.appendInfoToFile(pathtohere,'\\trigrams.txt',word+'\n')
+
         """        
-          
-    
-    print('LDA Model starting...')
-    # Create Dictionary
+
+    if (op==4):
+        print('Starting coherence ranking with 2 gram...')  
+        #Generate best coherence ranking
+        # Create Dictionary
+        id2word = corpora.Dictionary(lsDocuments_NoSW)
+        # Create Corpus: Term Document Frequency
+        corpus = [id2word.doc2bow(text) for text in lsDocuments_NoSW]
+        bigram = gensim.models.Phrases(lsDocuments_NoSW, min_count=5, threshold=100)
+        bigram_mod = gensim.models.phrases.Phraser(bigram)
+        lsDocBiGram = [bigram_mod[doc] for doc in lsDocuments_NoSW]
+        lsDocuments_NoSW.clear()
+        lsDocuments_NoSW = [[word for word in simple_preprocess(str(doc)) if word not in sw] for doc in lsDocBiGram]
+        model_list, coherence_values = mlf.compute_coherence_values(dictionary=id2word, corpus=corpus, texts=lsDocuments_NoSW, start=2, limit=45, step=6)
+        print('Plotting ranking...')
+        # Show graph
+        limit=45; start=2; step=6;
+        x = range(start, limit, step)
+        plt.plot(x, coherence_values)
+        plt.xlabel("Num Topics")
+        plt.ylabel("Coherence score")
+        plt.legend(("coherence_values"), loc='best')
+        plt.show() 
+        sys.exit()
+
+     # Create Dictionary
     id2word = corpora.Dictionary(lsDocuments_NoSW)
     # Create Corpus: Term Document Frequency
-    corpus = [id2word.doc2bow(text) for text in lsDocuments_NoSW]
-    #Generate best coherence ranking
-    print('Generating ranking...')
-    model_list, coherence_values = mlf.compute_coherence_values(dictionary=id2word, corpus=corpus, texts=lsDocuments_NoSW, start=2, limit=45, step=6)
-    print('Plotting ranking...')
-    # Show graph
-    limit=45; start=2; step=6;
-    x = range(start, limit, step)
-    plt.plot(x, coherence_values)
-    plt.xlabel("Num Topics")
-    plt.ylabel("Coherence score")
-    plt.legend(("coherence_values"), loc='best')
-    plt.show()
-
+    corpus = [id2word.doc2bow(text) for text in lsDocuments_NoSW]    
+    print('LDA Model starting...')
     # Build LDA model
     lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus,
                                 id2word=id2word,
