@@ -23,7 +23,7 @@ def main():
     print('1) 1 gram, 2) 2 gram, 3) 3 gram, 4) Ranking of coherence')
     op=input()
     op=int(op)
-    numberTopic=20
+    numberTopic=28
     lsReturn=[]
     lsDocuments=[]
     lsSubject=[]
@@ -111,8 +111,7 @@ def main():
     # Build LDA model
     lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus,
                                 id2word=id2word,
-                                num_topics=numberTopic, 
-                                random_state=100)
+                                num_topics=numberTopic)
 
     """
     print('Printing topics')

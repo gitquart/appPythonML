@@ -191,8 +191,7 @@ def compute_coherence_values(dictionary, corpus, texts, limit, start=2, step=3):
     model_list = []
     appendInfoToFile(pathtohere+'\\','scores.txt','No.Topic,Coherence Score\n')
     for num_topics in range(start, limit, step):
-        lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus,id2word=dictionary,num_topics=num_topics, random_state=100)
-        #model = gensim.models.wrappers.LdaMallet(mallet_path, corpus=corpus, num_topics=num_topics, id2word=dictionary)
+        lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus,id2word=dictionary,num_topics=num_topics)
         model_list.append(lda_model)
         coherencemodel = CoherenceModel(model=lda_model, texts=texts, dictionary=dictionary, coherence='c_v')
         coherence_values.append(coherencemodel.get_coherence())
