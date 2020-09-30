@@ -23,7 +23,8 @@ def main():
     print('1) 1 gram, 2) 2 gram, 3) 3 gram, 4) Ranking of coherence')
     op=input()
     op=int(op)
-    numberTopic=28
+    #28 topics, optimum result (27 topics are really 28, 0 to 27)
+    numberTopic=27
     lsReturn=[]
     lsDocuments=[]
     lsSubject=[]
