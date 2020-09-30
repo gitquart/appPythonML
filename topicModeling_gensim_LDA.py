@@ -90,10 +90,11 @@ def main():
         lsDocBiGram = [bigram_mod[doc] for doc in lsDocuments_NoSW]
         lsDocuments_NoSW.clear()
         lsDocuments_NoSW = [[word for word in simple_preprocess(str(doc)) if word not in sw] for doc in lsDocBiGram]
-        model_list, coherence_values = mlf.compute_coherence_values(dictionary=id2word, corpus=corpus, texts=lsDocuments_NoSW, start=2, limit=45, step=6)
+        limit=51; start=2; step=1;
+        model_list, coherence_values = mlf.compute_coherence_values(dictionary=id2word, corpus=corpus, texts=lsDocuments_NoSW, start=start, limit=limit, step=step)
         print('Plotting ranking...')
         # Show graph
-        limit=45; start=2; step=6;
+        
         x = range(start, limit, step)
         plt.plot(x, coherence_values)
         plt.xlabel("Num Topics")
