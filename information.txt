@@ -1,4 +1,4 @@
-Some conclusions:
+------START OF CONCLUSIONS-------
 1)NLP has lots of techniques: Vectorizer, TD-IDF, Latent Semantics Analytics
 2)The first step is to Vectorize each document, if we have several docs, then it turns into a matrix
 2.1) Hence we talk about to transform CORPUS (Collection of documents) into a Space Vector Model (matrix)
@@ -17,6 +17,10 @@ for example, in thesis, if they are 20 K thesis it doesn't mean there should be 
 -LSA vs LDA: same input, similar output, different math.
 -SVD: Singular Value Decomposition is applied to a term-frequency matrix
 -There are several existing algorithms you can use to perform the topic modeling. The most common of it are, Latent Semantic Analysis (LSA/LSI), Probabilistic Latent Semantic Analysis (pLSA), and Latent Dirichlet Allocation (LDA)
+
+-It exists some relation between Data Fit (aka Linear regression, fit squares) , SVD and PCA.
+
+-----------END OF CONCLUSIONS--------
 
 Start ML with 10th period
    -Obtener Término frecuencia y TF IDF con los nuevos campos
