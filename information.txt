@@ -42,3 +42,11 @@ HDP Coherence: 0.47022234102061455
 LDA Coherence: 	0.47
 LSI Coherence: 	0.36
 HDP Coherence: 	0.47
+
+
+-----Bibliograpgy----
+
+MAtriz de varianza y covarianza:https://economipedia.com/definiciones/matriz-varianza-covarianza.html
+Understanding SVD: https://towardsdatascience.com/understanding-singular-value-decomposition-and-its-application-in-data-science-388a54be95d
+
+---End bibliography----

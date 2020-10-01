@@ -112,7 +112,7 @@ def getDominantTopicDataFrame(lda_model,corpus,lsDocuments_NoSW,lsSubject):
         # Get the Dominant topic, Perc Contribution and Keywords for each document
         for j, (topic_num, prop_topic) in enumerate(row):
             if j == 0:  # => dominant topic
-                wp = lda_model.show_topic(topic_num)
+                wp = lda_model.show_topic(topicid=topic_num,topn=10)
                 topic_keywords = ", ".join([word for word, prop in wp])
                 sent_topics_df = sent_topics_df.append(pd.Series([int(topic_num), round(prop_topic,4), topic_keywords]), ignore_index=True)
             else:

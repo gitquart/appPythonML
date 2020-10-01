@@ -24,7 +24,7 @@ def main():
     op=input()
     op=int(op)
     #28 topics, optimum result (27 topics are really 28, 0 to 27)
-    numberTopic=27
+    numberTopic=5
     lsReturn=[]
     lsDocuments=[]
     lsSubject=[]
@@ -112,7 +112,8 @@ def main():
     # Build LDA model
     lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus,
                                 id2word=id2word,
-                                num_topics=numberTopic)
+                                num_topics=numberTopic
+                                )
 
     """
     print('Printing topics')
