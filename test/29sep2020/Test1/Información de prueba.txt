@@ -1,8 +1,0 @@
-For LDA Model:
-
-The coherence value shows the bigger the better
-
-Gram Topics  Coherence value     Aprox
-2     20    0.44367030796442847  0.44
-
-
