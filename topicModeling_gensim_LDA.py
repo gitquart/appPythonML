@@ -104,10 +104,13 @@ def main():
         plt.show() 
         sys.exit()
 
-     # Create Dictionary
+    # Create Dictionary
     id2word = corpora.Dictionary(lsDocuments_NoSW)
-    # Create Corpus: Term Document Frequency
-    corpus = [id2word.doc2bow(text) for text in lsDocuments_NoSW]    
+    # Term Document Frequency
+    #Gensim creates a unique id for each word in the document. 
+    #The produced corpus shown above is a mapping of (word_id, word_frequency).
+    corpus = [id2word.doc2bow(text) for text in lsDocuments_NoSW]  
+
     print('LDA Model starting...')
     # Build LDA model
     lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus,

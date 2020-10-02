@@ -106,13 +106,12 @@ def appendInfoToFile(path,filename,strcontent):
 def getDominantTopicDataFrame(lda_model,corpus,lsDocuments_NoSW,lsSubject):
     sent_topics_df = pd.DataFrame()
     # Get main topic in each document
-    for i, row_list in enumerate(lda_model[corpus]):
-        row = row_list[0] if lda_model.per_word_topics else row_list            
+    for i, row in enumerate(lda_model[corpus]):           
         row = sorted(row, key=lambda x: (x[1]), reverse=True)
         # Get the Dominant topic, Perc Contribution and Keywords for each document
         for j, (topic_num, prop_topic) in enumerate(row):
             if j == 0:  # => dominant topic
-                wp = lda_model.show_topic(topicid=topic_num,topn=10)
+                wp = lda_model.show_topic(topicid=topic_num,topn=2000)
                 topic_keywords = ", ".join([word for word, prop in wp])
                 sent_topics_df = sent_topics_df.append(pd.Series([int(topic_num), round(prop_topic,4), topic_keywords]), ignore_index=True)
             else:
