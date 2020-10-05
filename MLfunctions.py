@@ -77,6 +77,7 @@ def getRawTextToList():
     row=''
     ltDocuments=[]
     lsSubject=[]
+    #lsNoThesis=[]
     querySt="select heading,text_content,subject,type_of_thesis from thesis.tbthesis where period_number=10 ALLOW FILTERING"       
     statement = SimpleStatement(querySt, fetch_size=1000)
     print('Getting data from datastax...')
@@ -84,6 +85,7 @@ def getRawTextToList():
         thesis_b=StringIO()
         #Add subject to a list aside
         lsSubject.append(row[2])
+        #lsNoThesis.append(row[4])
         for col in row:
             if type(col) is list:
                 for e in col:
@@ -96,6 +98,7 @@ def getRawTextToList():
     lsReturn=[]    
     lsReturn.append(ltDocuments)
     lsReturn.append(lsSubject)
+    #lsReturn.append(lsNoThesis)
     return lsReturn
 
 def appendInfoToFile(path,filename,strcontent):

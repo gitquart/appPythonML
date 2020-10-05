@@ -1,6 +1,8 @@
 import MLfunctions as mlf
 import gensim
 from gensim import corpora
+from gensim.models import Doc2Vec,Word2Vec,TfidfModel
+from gensim.models.doc2vec import TaggedDocument
 from gensim.utils import simple_preprocess
 from gensim.models import CoherenceModel
 from nltk.corpus import stopwords
@@ -11,8 +13,6 @@ import os
 import sys
 import seaborn as sns
 import matplotlib.colors as mcolors
-
-
 
 sw=stopwords.words('spanish')
 pathtohere=os.getcwd()
@@ -28,10 +28,12 @@ def main():
     lsReturn=[]
     lsDocuments=[]
     lsSubject=[]
+    #lsNoThesis=[]
     #Get the the information into a list of documents
     lsReturn=mlf.getRawTextToList()
     lsDocuments=lsReturn[0]
     lsSubject=lsReturn[1]
+    #lsNoThesis=lsReturn[2]
     #Read the unwanted words and then add them up to stopwords
     lsUnWantedWords=[]
     lsUnWantedWords=mlf.readFile('removed_words.txt')
@@ -107,21 +109,34 @@ def main():
     # id2word :Create Dictionary, this dictionary has the id and word
     
     id2word = corpora.Dictionary(lsDocuments_NoSW)
-    """
-    #Print the id and word 
-
-    for key,value in id2word.token2id.items():
-        mlf.appendInfoToFile(pathtohere+'\\','id2vector.txt',key+';'+str(value)+'\n')    
-    """
-    for key, value in id2word.cfs.items():
-        mlf.appendInfoToFile(pathtohere+'\\','cfs.txt',str(key)+';'+str(value)+'\n') 
 
     # Term Document Frequency
     #Gensim creates a unique id for each word in the document. 
     #The produced corpus shown above is a mapping of (word_id, word_frequency).
-    corpus = [id2word.doc2bow(text) for text in lsDocuments_NoSW]
     
+    corpus = [id2word.doc2bow(text) for text in lsDocuments_NoSW]
 
+    columns=len(id2word)+1
+    rows=len(corpus)
+    
+    dataFrame= pd.DataFrame()
+    for i in range(0,columns):
+        #...insert(): insert column
+        dataFrame[str(i)]=0
+
+
+    #Print the id and word 
+    """
+     for element in lsSubject:
+        mlf.appendInfoToFile(pathtohere+'\\','lsSubject.txt',str(element)+'\n')    
+     for doc in corpus:
+         mlf.appendInfoToFile(pathtohere+'\\','doc_vector.txt',str(doc)+'\n')
+    #Get the word and its ID.
+    for key,value in id2word.token2id.items():
+        mlf.appendInfoToFile(pathtohere+'\\','id2word.txt',str(key)+';'+str(value)+'\n')    
+
+    """    
+        
     print('LDA Model starting...')
     # Build LDA model
     lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus,
@@ -145,7 +160,6 @@ def main():
     lda_cm=CoherenceModel(model=lda_model,corpus=corpus,dictionary=id2word,texts=lsDocuments_NoSW)
     print('LDA Coherence:',lda_cm.get_coherence())    
     """
-
 
 
 if __name__=='__main__':
