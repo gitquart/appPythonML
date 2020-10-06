@@ -169,7 +169,7 @@ def readFile(file):
     file1 = open(file, 'r',encoding='utf8') 
     Lines = file1.readlines() 
     for line in Lines: 
-        ls.append(line)   
+        ls.append(line.strip())   
     return ls 
 
 

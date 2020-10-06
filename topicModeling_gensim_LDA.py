@@ -115,22 +115,56 @@ def main():
     #The produced corpus shown above is a mapping of (word_id, word_frequency).
     
     corpus = [id2word.doc2bow(text) for text in lsDocuments_NoSW]
-
-    columns=len(id2word)+1
-    rows=len(corpus)
+    #Example: it has 37, 342 indexes, so 0 to 37, 341 
+    columns=len(id2word) 
+    #Generate list of columns
+    lsColumn=[]
+    for i in range(0,columns):
+        lsColumn.append(str(i));
+    #Generate the indexes (id_thesis)
+    lsIndex=[]    
+    lsIndex=mlf.readFile('lsThesis.txt')
+    term_matrix=[]
+    lim=columns-1
+    for doc in corpus:
+        strdoc=''
+        lsWordsReady=[]
+        for i in range(0,columns): 
+            bFound=False 
+            for index_word,value in doc: 
+                #Case: When the document has that index word 
+                if int(i)!=lim:
+                    if str(index_word) not in lsWordsReady:
+                        if i==index_word: 
+                            bFound=True 
+                            lsWordsReady.append(str(index_word))
+                            if i==0:
+                                strdoc='('
+                            if int(index_word)==i:
+                                strdoc=strdoc+str(value)+',' 
+                            break    
+                #Case: End of columns then add value and ')'    
+                else:     
+                    if i==index_word: 
+                        bFound=True 
+                        lsWordsReady.append(str(index_word))
+                        if int(index_word)==i:
+                            strdoc=strdoc+str(value)+')' 
+                        break    
+            if bFound==False:
+                strdoc=strdoc+'0,'                             
+        term_matrix.append(strdoc)    
+   
     
     dataFrame= pd.DataFrame()
-    for i in range(0,columns):
-        #...insert(): insert column
-        dataFrame[str(i)]=0
-
+    dataFrame = pd.DataFrame(term_matrix, columns = lsColumn, index=lsIndex) 
+    dataFrame.to_csv('matrix.csv')
 
     #Print the id and word 
     """
      for element in lsSubject:
         mlf.appendInfoToFile(pathtohere+'\\','lsSubject.txt',str(element)+'\n')    
-     for doc in corpus:
-         mlf.appendInfoToFile(pathtohere+'\\','doc_vector.txt',str(doc)+'\n')
+     
     #Get the word and its ID.
     for key,value in id2word.token2id.items():
         mlf.appendInfoToFile(pathtohere+'\\','id2word.txt',str(key)+';'+str(value)+'\n')    
@@ -141,7 +175,7 @@ def main():
     # Build LDA model
     lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus,
                                 id2word=id2word,
-                                num_topics=numberTopic )
+                                num_topics=numberTopic)
 
     """
     print('Printing topics')
