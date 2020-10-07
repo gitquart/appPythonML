@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pyLDAvis.gensim
 import gensim
+from datetime import datetime
 from gensim.models import CoherenceModel
 nltk.download('stopwords')
 nltk.download('punkt')
@@ -199,7 +200,12 @@ def compute_coherence_values(dictionary, corpus, texts, limit, start=2, step=3):
         coherence_values.append(coherencemodel.get_coherence())
         appendInfoToFile(pathtohere+'\\','scores.txt',str(num_topics)+','+str(coherencemodel.get_coherence())+'\n')
 
-    return model_list, coherence_values    
+    return model_list, coherence_values 
+
+def getTime():
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    return current_time      
 
 
          

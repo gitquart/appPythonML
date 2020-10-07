@@ -126,6 +126,8 @@ def main():
     lsIndex=mlf.readFile('lsThesis.txt')
     term_matrix=[]
     lim=columns-1
+    print('Start of matrix csv:',mlf.getTime())
+    countDoc=0
     for doc in corpus:
         strdoc=''
         lsWordsReady=[]
@@ -134,31 +136,36 @@ def main():
             for index_word,value in doc: 
                 #Case: When the document has that index word 
                 if int(i)!=lim:
-                    if str(index_word) not in lsWordsReady:
-                        if i==index_word: 
-                            bFound=True 
-                            lsWordsReady.append(str(index_word))
-                            if i==0:
-                                strdoc='('
-                            if int(index_word)==i:
-                                strdoc=strdoc+str(value)+',' 
-                            break    
-                #Case: End of columns then add value and ')'    
-                else:     
                     if i==index_word: 
                         bFound=True 
-                        lsWordsReady.append(str(index_word))
+                    if i==0:
+                        strdoc='('
+                    if int(index_word)==i:
+                        strdoc=strdoc+str(value)+',' 
+                    break    
+                #Case: End of columns then add value and ')'    
+                else:    
+                    if i==index_word: 
+                        bFound=True 
                         if int(index_word)==i:
                             strdoc=strdoc+str(value)+')' 
                         break    
             if bFound==False:
-                strdoc=strdoc+'0,'                             
-        term_matrix.append(strdoc)    
+                strdoc=strdoc+'0,' 
+            if bFound==False and i==lim:
+                strdoc=strdoc+'0)'
+
+        #mlf.appendInfoToFile(pathtohere+'\\','vectors.txt',strdoc)                                    
+        term_matrix.append(strdoc)
+        countDoc=countDoc+1
+        print('Doc:',str(countDoc))    
    
     
     dataFrame= pd.DataFrame()
-    dataFrame = pd.DataFrame(term_matrix, columns = lsColumn, index=lsIndex) 
+    dataFrame = pd.DataFrame(term_matrix) 
     dataFrame.to_csv('matrix.csv')
+    print('Done of matrix csv',mlf.getTime())
+    sys.exit()
 
     #Print the id and word 
     """
