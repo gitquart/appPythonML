@@ -46,8 +46,6 @@ def main():
     for word in lsNotSureWords:
         sw.append(word.strip())
        
-     
-    
     lsDocuments_NoSW = [[word for word in simple_preprocess(str(doc)) if word not in sw] for doc in lsDocuments]
 
 
@@ -126,11 +124,9 @@ def main():
     lsIndex=mlf.readFile('lsThesis.txt')
     term_matrix=[]
     lim=columns-1
-    print('Start of matrix csv:',mlf.getTime())
     countDoc=0
     for doc in corpus:
         strdoc=''
-        lsWordsReady=[]
         for i in range(0,columns): 
             bFound=False 
             for index_word,value in doc: 
@@ -160,11 +156,11 @@ def main():
         countDoc=countDoc+1
         print('Doc:',str(countDoc))    
    
-    
-    dataFrame= pd.DataFrame()
+
     dataFrame = pd.DataFrame(term_matrix) 
-    dataFrame.to_csv('matrix.csv')
-    print('Done of matrix csv',mlf.getTime())
+    for row in dataFrame.iterrows():
+        mlf.appendInfoToFile(pathtohere+'\\','dataFrameContent.txt',str(row))
+
     sys.exit()
 
     #Print the id and word 
